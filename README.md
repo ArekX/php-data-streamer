@@ -1,5 +1,6 @@
 # Redis Data Streamer
 
+[![Documentation Status](https://readthedocs.org/projects/php-data-streamer/badge/?version=latest)](https://php-data-streamer.readthedocs.io/en/latest/?badge=latest)
 [![Build Status](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/build.png?b=main)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/build-status/main)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/?branch=main)
 [![Code Coverage](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/?branch=main)
