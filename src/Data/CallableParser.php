@@ -86,7 +86,6 @@ class CallableParser implements MessageParser
      * }
      * ```
      *
-     * @param string $type
      * @param callable $builder
      */
     public function setDefaultBuilder(callable $builder)
