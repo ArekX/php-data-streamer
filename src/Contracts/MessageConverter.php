@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,20 @@
 
 namespace ArekX\DataStreamer\Contracts;
 
-
+/**
+ * Interface MessageConverter
+ * @package ArekX\DataStreamer\Contracts
+ *
+ * Represents a message converter for converting messages
+ * into a format for sending to a stream.
+ */
 interface MessageConverter
 {
+    /**
+     * Converts the message to array format for sending.
+     *
+     * @param Message $message Message to be sent.
+     * @return array
+     */
     public function convert(Message $message): array;
 }

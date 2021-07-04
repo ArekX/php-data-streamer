@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,20 @@
 
 namespace ArekX\DataStreamer\Contracts;
 
-
+/**
+ * Interface MessageHandler
+ * @package ArekX\DataStreamer\Contracts
+ *
+ * Represents a message handler to handle one received message.
+ */
 interface MessageHandler
 {
-    public function handle(Message $message): bool;
+    /**
+     * Handles one received message.
+     * If the handler throws an error, message will not be
+     * acknowledged.
+     *
+     * @param Message $message
+     */
+    public function handle(Message $message): void;
 }

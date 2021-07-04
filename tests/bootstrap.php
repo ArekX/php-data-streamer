@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,4 +17,5 @@
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
 
-$loader->addPsr4('tests\\', __DIR__);
+$loader->addPsr4('tests\\', __DIR__ . '/src');
+$loader->addPsr4('mock\\', __DIR__ . '/mock');

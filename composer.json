@@ -23,9 +23,8 @@
         "predis/predis": "To use the pure PHP redis driver."
     },
     "scripts": {
-        "test": "php vendor/bin/codecept run",
-        "coverage": "php vendor/bin/codecept --coverage-html coverage --whitelist src",
-        "coverage-clover": "php vendor/bin/codecept --coverage-clover coverage.xml --whitelist src"
+        "test": "vendor/bin/codecept run",
+        "coverage": "XDEBUG_MODE=coverage vendor/bin/codecept run --coverage-html"
     },
     "require-dev": {
         "codeception/codeception": "^4.1",

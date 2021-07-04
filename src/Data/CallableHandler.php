@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,28 +17,82 @@
 
 namespace ArekX\DataStreamer\Data;
 
-
-
 use ArekX\DataStreamer\Contracts\Message;
 use ArekX\DataStreamer\Contracts\MessageHandler;
 use Exception;
 
+/**
+ * Class CallableHandler
+ * @package ArekX\DataStreamer\Data
+ *
+ * Represents a callable handler which
+ * handles the message.
+ *
+ * @see Message
+ */
 class CallableHandler implements MessageHandler
 {
+    /**
+     * Registered handlers by type.
+     * Type is the key and callable is the value.
+     *
+     * @var callable[]
+     */
     protected $handlers = [];
+
+    /**
+     * Represents a default callable handler
+     * when no type is registered.
+     * If this is not set and no type is found
+     * this class will throw an exception.
+     *
+     * @see CallableHandler::handle()
+     * @var callable
+     */
     protected $defaultHandler;
 
+    /**
+     * Sets a callable which will handle the message.
+     *
+     * Callable should be in the format:
+     * ```php
+     * function(Message $message) {
+     * }
+     * ```
+     *
+     * @param string $type
+     * @param callable $handler
+     */
     public function setHandler(string $type, callable $handler)
     {
         $this->handlers[$type] = $handler;
     }
 
+    /**
+     * Sets a default callable which will handle the message if it
+     * is not resolved by type.
+     *
+     * Callable should be in the format:
+     * ```php
+     * function(Message $message) {
+     * }
+     * ```
+     *
+     * @param callable $handler
+     */
     public function setDefaultHandler(callable $handler)
     {
         $this->defaultHandler = $handler;
     }
 
-    public function handle(Message $message): bool
+    /**
+     * Handles a message by calling a callable
+     * from a type or a default handler.
+     *
+     * @param Message $message Message to be handled
+     * @throws Exception Exception which will be thrown if no callable is found and default is not set.
+     */
+    public function handle(Message $message): void
     {
         $handleMessage = $this->defaultHandler;
 
@@ -50,6 +104,6 @@ class CallableHandler implements MessageHandler
             throw new Exception('Cannot handle message: ' . ($message->getId() ?: 'Unknown ID'));
         }
 
-        return $handleMessage($message);
+        $handleMessage($message);
     }
 }

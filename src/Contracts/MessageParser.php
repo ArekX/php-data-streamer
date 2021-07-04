@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,21 @@
 
 namespace ArekX\DataStreamer\Contracts;
 
-
+/**
+ * Interface MessageParser
+ * @package ArekX\DataStreamer\Contracts
+ *
+ * Represents a message parser to parse message received
+ * from a stream.
+ */
 interface MessageParser
 {
+    /**
+     * Parse a message received from the stream.
+     *
+     * @param string $id ID of the message received.
+     * @param array $message Data of the message received
+     * @return Message Instance of Message to be returned as parsed message.
+     */
     public function parse(string $id, array $message): Message;
 }

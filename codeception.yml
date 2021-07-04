@@ -1,7 +1,8 @@
 namespace: tests
 suites:
     unit:
-        path: .
+        bootstrap: ../bootstrap.php
+        path: ./src
 
 settings:
     shuffle: true
@@ -11,4 +12,8 @@ paths:
     output: tests/_output
     support: tests/_support
     data: tests
+coverage:
+    enabled: true
+    include:
+        - src/*
      

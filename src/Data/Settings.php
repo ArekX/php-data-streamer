@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,44 +17,75 @@
 
 namespace ArekX\DataStreamer\Data;
 
-
-
 use ArekX\DataStreamer\Contracts\StreamSettings;
 
+/**
+ * Class Settings
+ * @package ArekX\DataStreamer\Data
+ *
+ * Represents settings to configure the
+ * stream reader or a writer.
+ */
 class Settings implements StreamSettings
 {
+    /**
+     * Settings to be read.
+     * @var array
+     */
     protected array $settings;
 
+    /**
+     * Settings constructor.
+     * @param array $settings Settings which will be read.
+     */
     public function __construct(array $settings)
     {
         $this->settings = $settings;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getStreamName(): string
     {
         return $this->settings['stream'] ?? '';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getConsumerGroup(): string
     {
         return $this->settings['consumerGroup'] ?? '';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getConsumerName(): string
     {
         return $this->settings['consumerName'] ?? '';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function shouldReadFromStart(): bool
     {
         return $this->settings['readFromStart'] ?? true;
     }
 
-    public function getMessagesPerRead(): int
+    /**
+     * @inheritDoc
+     */
+    public function getMessageReadCount(): int
     {
         return $this->settings['messagesPerRead'] ?? 1;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getMessageWaitTimeout(): int
     {
         return $this->settings['waitTimeout'] ?? 10000;

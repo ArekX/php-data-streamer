@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,10 @@ class StreamReader
     protected StreamSettings $settings;
     protected ?FailHandler $failHandler = null;
 
+    protected $readFrom = Driver::FROM_START;
+
+    protected $failedMessages = [];
+
     public function __construct(
         Driver $driver,
         MessageParser $parser,
@@ -47,72 +51,93 @@ class StreamReader
         $this->failHandler = $failHandler;
     }
 
-    public function run()
+    /**
+     * @codeCoverageIgnore
+     */
+    public function runLoop()
     {
-        $from = $this->settings->shouldReadFromStart()
-            ? Driver::FROM_START
-            : Driver::FROM_LATEST;
-
-        $streamName = $this->settings->getStreamName();
-        $consumerName = $this->settings->getConsumerName();
-        $consumerGroup = $this->settings->getConsumerGroup();
-        $amountOfMessages = $this->settings->getMessagesPerRead();
-        $waitTimeout = $this->settings->getMessageWaitTimeout();
-
-        $this->driver->createGroup($streamName, $consumerGroup);
-
-        if ($this->failHandler) {
-            $this->failHandler->beginHandler();
-        }
+        $this->initializeStream();
 
         while (true) {
-            $messages = $this->driver->readGroup(
-                $consumerGroup,
-                $consumerName,
-                $streamName,
-                $from,
-                $amountOfMessages,
-                $waitTimeout
-            );
+            $this->processPendingMessages();
+        }
+    }
 
-            if (empty($messages)) {
-                if ($from === Driver::FROM_START) {
-                    $from = Driver::FROM_LATEST;
-                }
-                continue;
+    public function getReadFrom(): string
+    {
+        return $this->readFrom;
+    }
+
+    public function processPendingMessages()
+    {
+        $this->failedMessages = [];
+
+        $messages = $this->readMessages();
+
+        if (empty($messages)) {
+            if ($this->readFrom === Driver::FROM_START) {
+                $this->readFrom = Driver::FROM_LATEST;
             }
+            return;
+        }
 
-            $handledIds = [];
-            $failedMessages = [];
+        $handledIds = [];
 
-            foreach ($messages as $id => $rawMessage) {
-                try {
-                    $message = $this->parser->parse($id, $rawMessage);
-                    if ($this->handler->handle($message)) {
-                        $handledIds[] = $id;
-                    }
-                } catch (\Exception $e) {
-                    if ($this->failHandler) {
-                        $failedMessages[] = [
-                            'id' => $id,
-                            'raw' => $rawMessage,
-                            'error' => $e
-                        ];
-                    } else {
-                        throw $e;
-                    }
-                }
-            }
-
-            $this->driver->acknowledge(
-                $this->settings->getStreamName(),
-                $this->settings->getConsumerGroup(),
-                $handledIds
-            );
-
-            if ($this->failHandler && !empty($failedMessages)) {
-                $this->failHandler->handle($failedMessages);
+        foreach ($messages as $id => $rawMessage) {
+            if ($this->processMessage($id, $rawMessage)) {
+                $handledIds[] = $id;
             }
         }
+
+        $this->driver->acknowledge(
+            $this->settings->getStreamName(),
+            $this->settings->getConsumerGroup(),
+            $handledIds
+        );
+
+        if ($this->failHandler && !empty($this->failedMessages)) {
+            $this->failHandler->handle($this->failedMessages);
+        }
+    }
+
+    protected function processMessage($id, $rawMessage): bool
+    {
+        try {
+            $this->handler->handle($this->parser->parse($id, $rawMessage));
+            return true;
+        } catch (\Exception $e) {
+            if ($this->failHandler) {
+                $this->pushErrorMessage($id, $rawMessage, $e);
+                return false;
+            }
+
+            throw $e;
+        }
+    }
+
+    protected function pushErrorMessage($id, $rawMessage, ?\Exception $exception = null)
+    {
+        $this->failedMessages[] = [
+            'id' => $id,
+            'raw' => $rawMessage,
+            'error' => $exception
+        ];
+    }
+
+    protected function readMessages(): array
+    {
+        return $this->driver->readMessages(
+            $this->settings->getConsumerGroup(),
+            $this->settings->getConsumerName(),
+            $this->settings->getStreamName(),
+            $this->readFrom,
+            $this->settings->getMessageReadCount(),
+            $this->settings->getMessageWaitTimeout()
+        );
+    }
+
+    public function initializeStream(): void
+    {
+        $this->driver->createGroup($this->settings->getStreamName(), $this->settings->getConsumerGroup());
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +20,43 @@ namespace ArekX\DataStreamer\FailHandler;
 
 use ArekX\DataStreamer\Contracts\FailHandler;
 
+/**
+ * Class FileLogHandler
+ * @package ArekX\DataStreamer\FailHandler
+ *
+ * @codeCoverageIgnore
+ */
 class FileLogHandler implements FailHandler
 {
+    /**
+     * Represents a resource to the log file.
+     * @var resource
+     */
     protected $logFile;
+
+    /**
+     * Represents a path where the log file is located.
+     * @var string
+     */
     protected $path;
 
+    /**
+     * FileLogHandler constructor.
+     * @param string $logFilePath
+     */
     public function __construct(string $logFilePath)
     {
         $this->path = $logFilePath;
-        $this->beginHandler();
+        $this->openLogFile();
 
         register_shutdown_function(function () {
-            $this->endHandler();
+            $this->closeLogFile();
         });
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handle(array $failedItems)
     {
         if (!is_resource($this->logFile)) {
@@ -50,12 +72,18 @@ class FileLogHandler implements FailHandler
         fwrite($this->logFile, $lines);
     }
 
-    public function beginHandler(): void
+    /**
+     * Opens the file at location for writing data.
+     */
+    public function openLogFile(): void
     {
         $this->logFile = fopen($this->path, "a");
     }
 
-    public function endHandler(): void
+    /**
+     * Closes the file and ends writing.
+     */
+    public function closeLogFile(): void
     {
         if (is_resource($this->logFile)) {
             fclose($this->logFile);

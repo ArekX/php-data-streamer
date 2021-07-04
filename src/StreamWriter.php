@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class StreamWriter
 
     public function write(Message $message): void
     {
-        $this->driver->addToStream(
+        $this->driver->sendMessage(
             $this->settings->getStreamName(),
             $this->converter->convert($message)
         );

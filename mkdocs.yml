@@ -1,0 +1,10 @@
+site_name: Data Streamer
+site_url: https://github.com/ArekX/php-data-streamer
+site_author: Aleksandar Panic
+site_description: "Data streaming handler for PHP using Redis Streams"
+repo_url: "https://github.com/ArekX/php-data-streamer"
+copyright: "PHP Data Streamer is licensed under the <a href='https://restfn.readthedocs.io/en/latest/license/'>Apache 2.0 license</a>"
+
+theme: readthedocs
+nav:
+  - Home: index.md

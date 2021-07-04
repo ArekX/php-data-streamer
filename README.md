@@ -17,7 +17,7 @@ use ArekX\DataStreamer\Data\Settings;
 use ArekX\DataStreamer\Drivers\RedisDriver;
 use ArekX\DataStreamer\StreamReader;
 
-$driver = new RedisDriver();
+$driver = new RedisDriver(); // or new \ArekX\DataStreamer\Drivers\PredisDriver() if Predis package is used
 $driver->connect([
     'host' => '127.0.0.1'
 ]);
@@ -40,7 +40,7 @@ $settings = new Settings([
 $reader = new StreamReader($driver, $parser, $handler, $settings);
 
 echo "Listening..." . PHP_EOL;
-$reader->run();
+$reader->runLoop();
 ```
 
 ## Sending messages
@@ -54,7 +54,7 @@ use ArekX\DataStreamer\Data\Settings;
 use ArekX\DataStreamer\Drivers\RedisDriver;
 use ArekX\DataStreamer\StreamWriter;
 
-$driver = new RedisDriver();
+$driver = new RedisDriver(); // or new \ArekX\DataStreamer\Drivers\PredisDriver() if Predis package is used
 $driver->connect([
     'host' => '127.0.0.1'
 ]);
@@ -75,9 +75,13 @@ for($i = 0; $i < 50; $i++) {
 }
 ```
 
-## License
+# Tests
 
-Copyright 2020 Aleksandar Panic
+To run tests run `composer test`.
+
+# License
+
+Copyright Aleksandar Panic
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

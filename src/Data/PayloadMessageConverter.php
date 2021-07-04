@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,17 @@ namespace ArekX\DataStreamer\Data;
 use ArekX\DataStreamer\Contracts\Message;
 use ArekX\DataStreamer\Contracts\MessageConverter;
 
+/**
+ * Class PayloadMessageConverter
+ * @package ArekX\DataStreamer\Data
+ *
+ * Handles the payload from message.
+ */
 class PayloadMessageConverter implements MessageConverter
 {
+    /**
+     * @inheritDoc
+     */
     public function convert(Message $message): array
     {
         return [

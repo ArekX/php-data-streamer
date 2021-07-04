@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,60 @@
 
 namespace ArekX\DataStreamer\Contracts;
 
+/**
+ * Interface Driver
+ * @package ArekX\DataStreamer\Contracts
+ *
+ * Represents a driver to handle the data layer
+ * which transmits the messages.
+ */
 interface Driver
 {
     const FROM_START = '0';
     const FROM_LATEST = '>';
 
-    public function connect(array $config);
+    /**
+     * Performs a connection to the server.
+     *
+     * @param array $config Configuration for connection to be passed.
+     */
+    public function connect(array $config): void;
 
+    /**
+     * Creates group for consuming messages.
+     *
+     * @param string $streamName Stream name for the consumer group
+     * @param string $consumerGroup Consumer group to consume messages
+     */
     public function createGroup(string $streamName, string $consumerGroup): void;
 
-    public function readGroup(string $consumerGroup, string $consumer, string $stream, string $fromId = self::FROM_START, int $count = 1, int $waitFor = 0): array;
+    /**
+     * Reads messages for the consumer group.
+     *
+     * @param string $consumerGroup Consumer group for which to read messages.
+     * @param string $consumer Consumer in the group which will read the messages.
+     * @param string $stream Stream to read the message from.
+     * @param string $fromId ID from which to start to read messages.
+     * @param int $count Amount of messages to be read.
+     * @param int $waitFor Duration in milliseconds to wait for the messages.
+     * @return array Received messages
+     */
+    public function readMessages(string $consumerGroup, string $consumer, string $stream, string $fromId = self::FROM_START, int $count = 1, int $waitFor = 0): array;
 
+    /**
+     * Marks message ids as acknowledged.
+     *
+     * @param string $stream Stream to acknowledge messages in
+     * @param string $consumerGroup Consumer group for which to acknowledge the messages.
+     * @param array $ids Message IDs to acknowledge
+     */
     public function acknowledge(string $stream, string $consumerGroup, array $ids): void;
 
-    public function addToStream(string $stream, array $message);
+    /**
+     * Sends a message to the stream.
+     *
+     * @param string $stream Stream to which to send the message.
+     * @param array $message Message to be sent
+     */
+    public function sendMessage(string $stream, array $message): void;
 }

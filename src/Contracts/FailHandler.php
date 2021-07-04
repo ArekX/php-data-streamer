@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2020 Aleksandar Panic
+ * Copyright Aleksandar Panic
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,26 @@
 
 namespace ArekX\DataStreamer\Contracts;
 
+use ArekX\DataStreamer\StreamReader;
 
+/**
+ * Interface FailHandler
+ * @package ArekX\DataStreamer\Contracts
+ *
+ * Represents a fail handler to handle failures
+ * when a message handler throws an exception
+ *
+ * @see MessageHandler
+ */
 interface FailHandler
 {
+    /**
+     * Handles failed messages which
+     * occurred during processing.
+     *
+     * @see StreamReader::pushErrorMessage()()
+     * @param array $failedItems
+     * @return mixed
+     */
     public function handle(array $failedItems);
 }
