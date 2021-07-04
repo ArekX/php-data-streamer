@@ -10,6 +10,10 @@ and provides easy access to Redis Streams and Consumer Groups.
 
 Both php-redis and predis drivers are supported.
 
+## Installation
+
+Through composer: `composer require arekxv/php-data-streamer`
+
 # Usage
 
 This library supports both reading the data stream and writing to a
