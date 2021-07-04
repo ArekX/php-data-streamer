@@ -102,6 +102,18 @@ $writer->write(ArrayMessage::create('test-type', [
 ]));
 ```
 
+# Documentation
+
+Documentation is available at: http://php-data-streamer.rtfd.io/
+
+You can also build documentation manually or read it directly from `docs` folder.
+
+## Building
+
+1. Install Python 3 and PIP
+2. Run `pip install mkdocs`
+3. Run `mkdocs serve` to serve or `mkdocs build` to build.
+
 # Tests
 
 To run tests run `composer test`.
