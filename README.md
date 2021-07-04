@@ -1,9 +1,9 @@
 # Redis Data Streamer
 
-[![Build Status](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/?branch=master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+[![Build Status](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/build.png?b=main)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/build-status/main)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/?branch=main)
+[![Code Coverage](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/?branch=main)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/ArekX/php-data-streamer/badges/code-intelligence.svg?b=main)](https://scrutinizer-ci.com/code-intelligence)
 
 Data streaming library which handles multiple redis drivers
 and provides easy access to Redis Streams and Consumer Groups.
