@@ -24,7 +24,8 @@
     },
     "scripts": {
         "test": "vendor/bin/codecept run",
-        "coverage": "XDEBUG_MODE=coverage vendor/bin/codecept run --coverage-html"
+        "coverage": "XDEBUG_MODE=coverage vendor/bin/codecept run --coverage-html",
+        "coverage-clover": "XDEBUG_MODE=coverage vendor/bin/codecept run --coverage-xml"
     },
     "require-dev": {
         "codeception/codeception": "^4.1",
